@@ -1,0 +1,15 @@
+create or replace trigger obese
+before insert or update on patient
+for each row
+declare
+imc number;
+pasbon exception;
+
+begin
+imc:= :new.poids_init/(:new.taille*:new.taille);
+	if imc >= 30 then
+    	raise pasbon;
+	end if;
+exception when pasbon then raise_application_error(-20001,'erreur: imc doit etre inferieur a 30');
+end;
+/
