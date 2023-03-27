@@ -6,8 +6,8 @@ pression_arterielle integer;
 nom_exam char(50);
 
 begin
-    if (:new.pression_arterielle <= 106 OR :new.pression_arterielle >= 65) AND :new.nom_exam != 'Analyse_sang' then
-    raise_application_error(-20001, 'La pression artérielle doit être comprise entre 65 et 106 pour une Analyse_sang.'); 
+    if (:new.pression_arterielle <= 106 AND :new.pression_arterielle >= 65) AND :new.nom_exam = 'Analyse_sang' then
+    raise_application_error(-20001, 'La pression artérielle ne doit pas être comprise entre 65 et 106 pour une Analyse_sang.'); 
     end if;
 end;
 /
