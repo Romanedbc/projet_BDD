@@ -6,9 +6,9 @@ pasbon exception;
 medecin_verif integer;
 
 begin
-	if (:new.medecin_verif != medecin_verif) then
+	if (:new.medecin_verif != :old.medecin_verif) then
     	raise pasbon;
 	end if;
-exception when pasbon then raise_application_error(-20001,'erreur: Il changer de médecin');
+exception when pasbon then raise_application_error(-20001,'erreur: Il faut changer de médecin');
 end;
 /
