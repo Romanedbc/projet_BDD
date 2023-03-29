@@ -1,14 +1,15 @@
-create or replace trigger limite_age
-before insert or update on groupe
-for each row
-declare
-id_ssgroupe int;
-
-begin
-SELECT id_ssgrp, id_grp into id_ssgroupe, id_groupe from groupe inner join patient on groupe.ssgrp = patient.age_p;
-    if (:new.age_P >= 43) AND (:new.id_ssgroupe = 1 or :new.id_ssgroupe = 3) then
-    raise pasbon;
-    end if;
-exception when pasbon then raise_application_error(-20001,'erreur: le patient doit être intégré au sous-groupe 2 ou au groupe placebo');
-end;
-/
+CREATE OR REPLACE TRIGGER age_trigger
+AFTER INSERT or update ON patient
+FOR EACH ROW
+DECLARE
+  random_val NUMBER;
+BEGIN
+  random_val := TRUNC(DBMS_RANDOM.VALUE(0, 2)); -- génère une valeur aléatoire de 0 ou 1
+  IF :NEW.age_p >= 43 THEN
+    IF random_val = 0 THEN
+      UPDATE groupe SET id_ssgrp = 2 WHERE id_grp = :NEW.id_grp;
+    ELSE
+      UPDATE groupe SET id_grp = 'PP' WHERE id_grp = :NEW.id_grp;
+    END IF;
+  END IF;
+END;
