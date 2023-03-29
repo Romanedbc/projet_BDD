@@ -1,0 +1,14 @@
+create or replace trigger limite_age
+before insert or update on groupe
+for each row
+declare
+id_ssgroupe int;
+
+begin
+SELECT id_ssgrp, id_grp into id_ssgroupe, id_groupe from groupe inner join patient on groupe.ssgrp = patient.age_p;
+    if (:new.age_P >= 43) AND (:new.id_ssgroupe = 1 or :new.id_ssgroupe = 3) then
+    raise pasbon;
+    end if;
+exception when pasbon then raise_application_error(-20001,'erreur: le patient doit être intégré au sous-groupe 2 ou au groupe placebo');
+end;
+/
