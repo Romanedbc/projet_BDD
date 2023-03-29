@@ -1,0 +1,152 @@
+-- si un patient a une maladie à risque alors le delais entre deux examens complémentaire est divisé par deux
+ALTER TABLE Analyse_Covid ADD CONSTRAINT res_covid_antigenique CHECK (res_covid_antigenique=True);
+
+create or replace TRIGGER maladie_risquee before insert or update on Patient For each row
+declare
+    pathorisque Pathologie.patho_risque%TYPE;
+
+begin
+    select max (patho_risque) into pathorisque from Pathologie inner join Contracter on Pathologie.id_patho = Contracter.id_patho inner join Patient on Contracter.num_anonymat=Patient.num_anonymat;
+    if pathorisque=1 then 
+    update Fiche_quotidienne set date_pro_exam= (datejour-date_pro_exam)/2 where :new.num_anonymat = num_anonymat;
+    end if;
+end;
+
+--si un patient est positif pendant l etude il est exclu
+create or replace TRIGGER positif_covid before insert or update on Analyse_COVID For each row
+declare
+   num_anom Fiche_quotidienne.num_anonymat%TYPE;
+   res Analyse_Covid.id_analyse_covid%TYPE;
+begin 
+    select res_covid_PCR, Fiche_quotidienne.num_anonymat into res, num_anom from Analyse_Covid inner join Fiche_quotidienne on Analyse_Covid.id_analyse_covid = Fiche_quotidienne.id_fiche inner join Patient on Fiche_quotidienne.num_anonymat=Patient.num_anonymat;
+    if res=1 then
+    update Patient set exclu=1 where num_anom = num_anonymat;
+    end if;    
+end;
+/
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+--drop sequence seqARC;
+--drop sequence seqCentre;
+--drop sequence seqEEG;
+--drop sequence seqCovid;
+--drop sequence seqEffort;
+--drop sequence seqSang;
+--drop sequence seqFiche;
+--drop sequence seqPatient;
+--drop sequence seqTraitement;
+--drop sequence seqPatho;
+--drop sequence seqActe;
+--
+--
+--drop trigger PK_idARC;
+--drop trigger PK_idCentre;
+--drop trigger PK_idEEG;
+--drop trigger PK_idCovid;
+--drop trigger PK_idEffort;
+--drop trigger PK_idSang;
+--drop trigger PK_idFiche;
+--drop trigger PK_idPatient;
+--drop trigger PK_idTraitement;
+--drop trigger PK_idPatho;
+--drop trigger PK_idActe;
+--
+--creat sequence seqARC
+--increment by 1
+--start with 1;
+--
+--creat sequence seqCentre
+--increment by 1
+--start with 1;
+--
+--creat sequence seqEEG
+--increment by 1
+--start with 1;
+--
+--creat sequence seqCovid
+--increment by 1
+--start with 1;
+--
+--creat sequence seqEffort
+--increment by 1
+--start with 1;
+--
+--creat sequence seqSang
+--increment by 1
+--start with 1;
+--
+--creat sequence seqFiche
+--increment by 1
+--start with 1;
+--
+--creat sequence seqPatient
+--increment by 1
+--start with 1;
+--
+--creat sequence seqActe
+--increment by 1
+--start with 1;
+--
+--creat sequence seqPatho
+--increment by 1
+--start with 1;
+--
+--creat sequence seqTraitement
+--increment by 1
+--start with 1;
+--
+--create or replace trigger PK_IdARC before insert on ARC
+--for each row
+--begin
+--select seqARC.nextval into :new.id_ARC from dual;
+--
+--create or replace trigger PK_IdCentre before insert on Centre
+--for each row
+--begin
+--select seqCentre.nextval into :new.id_centre from dual;
+--
+--create or replace trigger PK_IdEEG before insert on Analyse_EEG
+--for each row
+--begin
+--select seqEEG.nextval into :new.id_analyse_EEG from dual;
+--
+--create or replace trigger PK_IdCovid before insert on Analyse_COVID
+--for each row
+--begin
+--select seqCovid.nextval into :new.id_analyse_covid from dual;
+--
+--create or replace trigger PK_IdEffort before insert on Analyse_effort
+--for each row
+--begin
+--select seqEffort.nextval into :new.id_analyse_effort from dual;
+--
+--create or replace trigger PK_IdSang before insert on Analyse_sang
+--for each row
+--begin
+--select seqSang.nextval into :new.id_analyse_sang from dual;
+--
+--create or replace trigger PK_IdFiche before insert on Fiche_quotidienne
+--for each row
+--begin
+--select seqFiche.nextval into :new.id_fiche from dual;
+--
+--create or replace trigger PK_IdPatient before insert on Patient
+--for each row
+--begin
+--select seqPatient.nextval into :new.num_anonymat from dual;
+--
+--create or replace trigger PK_IdTraitement before insert on Traitement
+--for each row
+--begin
+--select seqTraitement.nextval into :new.id_traitement from dual;
+--
+--create or replace trigger PK_IdPatho before insert on Pathologie
+--for each row
+--begin
+--select seqPatho.nextval into :new.id_patho from dual;
+--
+--create or replace trigger PK_IdActe before insert on Acte_medical
+--for each row
+--begin
+--select seqActe.nextval into :new.id_acte from dual;
