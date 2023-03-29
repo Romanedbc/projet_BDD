@@ -1,3 +1,5 @@
+--au moment de l'ajout d'un patient
+
 create or replace trigger obese
 before insert or update on patient
 for each row
@@ -13,3 +15,20 @@ imc:= :new.poids_init/(:new.taille*:new.taille);
 exception when pasbon then raise_application_error(-20001,'erreur: imc doit etre inferieur a 30');
 end;
 /
+
+
+--vérification quotidien de l'imc
+
+CREATE TRIGGER calcul_imc AFTER INSERT ON fiche_quotidienne
+FOR EACH ROW
+BEGIN
+    DECLARE taille int;
+    DECLARE poids int;
+    DECLARE imc int;
+    SELECT taille INTO taille FROM patient WHERE num_anonymat = NEW.num_anonymat;
+    SELECT poids INTO poids FROM fiche_quotidienne WHERE id_fiche = NEW.id_fiche;
+    SET imc = poids / (taille * taille);
+    IF imc >= 30 THEN
+        UPDATE patient SET exclu = 1 WHERE num_anonymat = NEW.num_anonymat;
+    END IF;
+END;
