@@ -1,0 +1,28 @@
+create or replace PROCEDURE peuplement_traitement AS
+v_id_patient patient.num_anonymat%TYPE;
+
+  
+BEGIN
+  FOR i IN 1..50 LOOP
+    -- Générer un prénom aléatoire
+    DECLARE
+      nom_traitement CONSTANT SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST(
+        'Insuline', 'Pravastatine', 'Antibiotiques', 'Anticoagulants', 'Antiretroviaux', 
+        'Ventoline', 'Anti-allergique', 'Antiepileptique','Antidepresseurs', 'Immunosuppresseurs', 
+        'Erythropoietine'       
+      );
+      idx_traitement PLS_INTEGER := TRUNC(DBMS_RANDOM.VALUE(1, nom_traitement.COUNT+1));
+      traitement VARCHAR2(20) := nom_traitement(idx_traitement);
+  
+    BEGIN
+    SELECT num_anonymat INTO v_id_patient FROM (SELECT num_anonymat FROM patient ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM = 1;
+     
+        BEGIN         
+            DELETE FROM traitement;
+            INSERT INTO traitement (id_traitement, nom_traitement, num_anonymat)
+            VALUES (seq_id.nextval, traitement, v_id_patient);
+        END;
+    
+    END;
+  END LOOP;
+END;
