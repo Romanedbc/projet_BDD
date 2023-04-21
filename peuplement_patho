@@ -1,0 +1,34 @@
+create or replace PROCEDURE peuplement_patho
+IS
+   TYPE nom_type IS TABLE OF VARCHAR2(10) INDEX BY PLS_INTEGER;
+   noms nom_type;
+   risques nom_type;
+BEGIN
+   noms(1) := 'Grippe';
+   noms(2) := 'VIH';
+   noms(3) := 'Hepatite';
+   noms(4) := 'Gastro';
+   noms(5) := 'Asthme';
+   noms(6) := 'Covid';
+   noms(7) := 'Thrombose';
+   noms(8) := 'AVC';
+   noms(9) := 'Pneumonie';
+   noms(10) := 'Anemie';
+   noms(11) := 'Embolie';
+   
+   DELETE FROM PATHOLOGIE;
+   
+   FOR i IN 1..11 LOOP
+    
+    IF noms(i) = 'Covid' OR noms(i) = 'AVC'  OR noms(i)= 'Embolie' THEN
+        risques(i) := 2;
+    ELSIF noms(i) = 'Thrombose' OR noms(i)= 'VIH' OR noms(i)= 'Pneumonie' OR noms(i)='Asthme' THEN
+        risques(i) := 1; 
+    ELSE 
+        risques(i) := 0;
+    END IF;
+      
+      INSERT INTO pathologie (id_patho, nom_patho, patho_risque)
+      VALUES (seq_id.nextval, noms(i), risques(i));
+   END LOOP;
+END;
