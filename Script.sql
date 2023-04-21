@@ -433,7 +433,7 @@ create index REDIGEREEG2_FK on FICHE_QUOTIDIENNE (
 /*==============================================================*/
 create table GROUPE 
 (
-   ID_GRP               INTEGER              not null
+   ID_GRP               VARCHAR(2)              not null
       constraint CKC_ID_GRP_GROUPE check (ID_GRP in ('TP','VP','TV','PP')),
    ID_SSGRP             NUMBER               not null
       constraint CKC_ID_SSGRP_GROUPE check (ID_SSGRP in (1,2,3)),
@@ -469,21 +469,22 @@ create table PATHOLOGIE
 /*==============================================================*/
 /* Table : PATIENT                                              */
 /*==============================================================*/
+
 create table PATIENT 
 (
    NUM_ANONYMAT         INTEGER              not null,
-   ID_GRP               INTEGER              not null
-      constraint CKC_ID_GRP_PATIENT check (ID_GRP in ('TP','VP','TV','PP')),
-   ID_FICHE             INTEGER              not null,
+   ID_GRP               varchar(2)              not null,
+   ID_FICHE             INTEGER,
    NOM_P                CHAR(50)             not null,
    PRENOM_P             CHAR(50)             not null,
-   STATUT_PATHO         SMALLINT             not null,
+   STATUT_PATHO         SMALLINT,
    AGE_P                NUMBER               not null
       constraint CKC_AGE_P_PATIENT check (AGE_P between 18 and 53),
-   MED_REF              INTEGER              not null,
-   TAILLE               FLOAT,
-   POIDS_INIT           INTEGER,
-   constraint PK_PATIENT primary key (NUM_ANONYMAT)
+   MED_REF              INTEGER             not null,
+   TAILLE               FLOAT               not null,
+   POIDS_INIT           INTEGER             not null,
+   constraint PK_PATIENT primary key (NUM_ANONYMAT),
+   EXCLU                INTEGER
 );
 
 /*==============================================================*/
@@ -610,4 +611,9 @@ alter table PATIENT
 alter table TRAITEMENT
    add constraint FK_TRAITEME_TRAITER_PATIENT foreign key (NUM_ANONYMAT)
       references PATIENT (NUM_ANONYMAT);
+
+
+
+
+
 
