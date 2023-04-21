@@ -19,12 +19,14 @@ end;
 
 --vérification quotidien de l'imc
 
-CREATE TRIGGER calcul_imc AFTER INSERT ON fiche_quotidienne
+create or replace TRIGGER calcul_imc AFTER INSERT ON fiche_quotidienne
 FOR EACH ROW
 BEGIN
-    DECLARE taille int;
-    DECLARE poids int;
-    DECLARE imc int;
+    DECLARE 
+     taille int;
+     poids int;
+     imc int;
+     BEGIN
     SELECT taille INTO taille FROM patient WHERE num_anonymat = NEW.num_anonymat;
     SELECT poids INTO poids FROM fiche_quotidienne WHERE id_fiche = NEW.id_fiche;
     SET imc = poids / (taille * taille);
