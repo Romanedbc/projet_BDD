@@ -1,0 +1,63 @@
+create or replace PROCEDURE peuplement_personnes AS
+  groupes VARCHAR2(2);
+  
+BEGIN
+  FOR i IN 1..50 LOOP
+    -- Générer un prénom aléatoire
+    DECLARE
+      prenom_P CONSTANT SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST(
+        'Alice', 'Bob', 'Charlie', 'David', 'Emma',
+        'Frank', 'Grace', 'Henry', 'Isabella', 'Jack',
+        'Kate', 'Annie', 'Mia', 'Nora', 'Oliver',
+        'Penny', 'Quinn', 'Ryan', 'Sophia', 'Tom',
+        'Uma', 'Violet', 'William', 'Xander', 'Yara', 'Zoe'
+      );
+      idx_prenom PLS_INTEGER := TRUNC(DBMS_RANDOM.VALUE(1, prenom_P.COUNT+1));
+      prenom VARCHAR2(20) := prenom_P(idx_prenom);
+       
+        nom_P CONSTANT SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST(
+        'Dupont', 'Lefevre', 'Geniet', 'Girard', 'Dubois',
+        'Martin', 'Fournier', 'Roussel', 'Moreau'
+      );
+      idx_nom PLS_INTEGER := TRUNC(DBMS_RANDOM.VALUE(1, nom_P.COUNT+1));
+      nom VARCHAR2(20) := nom_P(idx_nom);
+      
+    BEGIN
+      -- Générer un âge aléatoire entre 18 et 60
+      DECLARE
+        age NUMBER := TRUNC(DBMS_RANDOM.VALUE(18, 53));
+        
+      BEGIN
+        -- Générer un nom de groupe aléatoire entre "TP", "TV" et "VP"
+        DECLARE
+        id_grp CONSTANT SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST(
+        'TP', 'TV', 'VP'
+        );
+        idx_groupe PLS_INTEGER := TRUNC(DBMS_RANDOM.VALUE(1, id_grp.COUNT+1));
+        groupe VARCHAR2(2) := id_grp(idx_groupe);
+      
+          --idx_groupe PLS_INTEGER := TRUNC(DBMS_RANDOM.VALUE(1, LENGTH(groupes)+1));
+          --groupe VARCHAR(2) := SUBSTR(groupes, idx_groupe, 2);
+          
+        BEGIN
+         -- Générer une taille aléatoire en cm
+            DECLARE
+             taille NUMBER := TRUNC(DBMS_RANDOM.VALUE(140, 200));
+          
+          BEGIN
+         -- Générer un poids aléatoire en kg
+            DECLARE
+             poids NUMBER := TRUNC(DBMS_RANDOM.VALUE(40, 150));
+          
+          
+            BEGIN
+          -- Insérer la nouvelle personne dans la table
+             INSERT INTO patient (num_anonymat, id_grp, nom_P, prenom_P, statut_patho, age_P, med_ref, taille, poids_init, exclu)
+             VALUES (seq_id.nextval, groupe, nom, prenom, '1', age, '1', taille, poids, '0');
+            END;
+          END;
+        END;
+      END;
+    END;
+  END LOOP;
+END;
