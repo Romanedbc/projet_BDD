@@ -433,12 +433,13 @@ create index REDIGEREEG2_FK on FICHE_QUOTIDIENNE (
 /*==============================================================*/
 create table GROUPE 
 (
-   ID_GRP               VARCHAR(2)              not null
-      constraint CKC_ID_GRP_GROUPE check (ID_GRP in ('TP','VP','TV','PP')),
+   ID_GRP               INT              not null,
+   nom_grp              VARCHAR(2)              not null,
+      constraint CKC_NOM_GRP_GROUPE check (NOM_GRP in ('TP','VP','TV','PP')),
    ID_SSGRP             NUMBER               not null
       constraint CKC_ID_SSGRP_GROUPE check (ID_SSGRP in (1,2,3)),
-   NB_GRP               INTEGER              not null,
-   NB_SSGRP             INTEGER              not null,
+   NB_GRP               INTEGER,
+   NB_SSGRP             INTEGER,
    constraint PK_GROUPE primary key (ID_GRP)
 );
 
@@ -461,7 +462,7 @@ create table PATHOLOGIE
 (
    ID_PATHO             INTEGER              not null,
    NOM_PATHO            CHAR(50)             not null,
-   PATHO_RISQUE         NUMBER               not null
+   PATHO_RISQUE         SMALLINT             
       constraint CKC_PATHO_RISQUE_PATHOLOG check (PATHO_RISQUE in (0,1,2)),
    constraint PK_PATHOLOGIE primary key (ID_PATHO)
 );
@@ -473,7 +474,7 @@ create table PATHOLOGIE
 create table PATIENT 
 (
    NUM_ANONYMAT         INTEGER              not null,
-   ID_GRP               varchar(2)              not null,
+   ID_GRP               INTEGER              not null,
    ID_FICHE             INTEGER,
    NOM_P                CHAR(50)             not null,
    PRENOM_P             CHAR(50)             not null,
@@ -507,9 +508,8 @@ create index ASSOCIATION_16_FK on PATIENT (
 create table TRAITEMENT 
 (
    ID_TRAITEMENT        INTEGER              not null,
-   NUM_ANONYMAT         INTEGER              not null,
    NOM_TRAITEMENT       CHAR(50)             not null,
-   DUREE_TRAITEMENT     INTEGER              not null,
+   NUM_ANONYMAT         INTEGER              not null,
    constraint PK_TRAITEMENT primary key (ID_TRAITEMENT)
 );
 
@@ -612,6 +612,14 @@ alter table TRAITEMENT
    add constraint FK_TRAITEME_TRAITER_PATIENT foreign key (NUM_ANONYMAT)
       references PATIENT (NUM_ANONYMAT);
 
+
+Begin
+peuplement_groupes;
+peuplement_patho;
+peuplement_personnes;
+--peuplement_traitement;
+--(peuplement medecins en cours)
+End;
 
 
 
