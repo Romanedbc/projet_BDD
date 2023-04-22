@@ -1,0 +1,12 @@
+create or replace PROCEDURE insert_analyse_covid (
+    --p_id_fiche   IN fiche.id_fiche%TYPE,
+    p_num_adeli   IN medecin_auxilaire.num_adeli%TYPE,
+    p_res_antigenique IN analyse_covid.res_covid_antigenique%TYPE)
+
+IS
+BEGIN
+    INSERT INTO analyse_covid (id_analyse_covid, num_adeli, res_covid_antigenique)
+    VALUES (seq_analyse_covid.nextval, p_num_adeli, p_res_antigenique);
+    
+    COMMIT;
+END;
