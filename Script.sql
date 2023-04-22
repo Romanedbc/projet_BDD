@@ -157,7 +157,7 @@ create table ACTE_MEDICAL
    ID_ACTE              INTEGER              not null,
    NUM_ANONYMAT         INTEGER              not null,
    NOM_ACTE             CHAR(50)             not null,
-   REGULARITE_ACTE      SMALLINT             not null,
+   REGULARITE_ACTE      SMALLINT,
    constraint PK_ACTE_MEDICAL primary key (ID_ACTE)
 );
 
@@ -209,7 +209,7 @@ create table ANALYSE_COVID
    ID_FICHE             INTEGER,
    NUM_ADELI            INTEGER              not null,
    RES_COVID_ANTIGENIQUE SMALLINT             not null,
-   RES_COVID_PCR        SMALLINT             not null,
+   RES_COVID_PCR        SMALLINT,
    constraint PK_ANALYSE_COVID primary key (ID_ANALYSE_COVID)
 );
 
@@ -450,6 +450,7 @@ create table MEDECIN_AUXILAIRE
 (
    NUM_ADELI            INTEGER              not null,
    SPECIALITE           CHAR(50)             not null,
+         constraint CKC__SPECIA_MEDECIN check (SPECIALITE in ('Generaliste','Infirmier','Kine','Biologiste','Neurologue')),
    NOM_MEDECIN          CHAR(50)             not null,
    PRENOM_MEDECIN       CHAR(50)             not null,
    constraint PK_MEDECIN_AUXILAIRE primary key (NUM_ADELI)
@@ -612,13 +613,19 @@ alter table TRAITEMENT
    add constraint FK_TRAITEME_TRAITER_PATIENT foreign key (NUM_ANONYMAT)
       references PATIENT (NUM_ANONYMAT);
 
+DROP SEQUENCE SEQ_ID;
+CREATE SEQUENCE  SEQ_ID  MINVALUE 1 MAXVALUE 99999 INCREMENT BY 1 START WITH 61 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
 
 Begin
 peuplement_groupes;
 peuplement_patho;
 peuplement_personnes;
---peuplement_traitement;
---(peuplement medecins en cours)
+peuplement_traitement;
+peuplement_medecins;
+
+insert_analyse_covid(216, 1);
+insert_analyse_effort(216, 100, 160, 190);
+
 End;
 
 
