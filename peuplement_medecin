@@ -1,0 +1,42 @@
+create or replace PROCEDURE peuplement_medecins AS
+
+
+  
+BEGIN
+DELETE FROM traitement;
+  FOR i IN 1..50 LOOP
+    -- Générer une specialité
+    DECLARE
+      specialite CONSTANT SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST(
+        'Generaliste','Infirmier','Kine','Biologiste','Neurologue'     
+      );
+      idx_specialite PLS_INTEGER := TRUNC(DBMS_RANDOM.VALUE(1, specialite.COUNT+1));
+      spe VARCHAR2(20) := specialite(idx_specialite);
+
+    -- Générer un prénom aléatoire
+        prenom_medecin CONSTANT SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST(
+        'Nathalie', 'Lucas', 'Chloe', 'Marie', 'Diego',
+        'Ana', 'Thomas', 'Sophia', 'Antoine', 'Sarah',
+        'Alexis', 'Carlos', 'Charlotte', 'Pedro', 'Emma',
+        'Olivier', 'Emily', 'Vincent', 'Isabella', 'Louis',
+        'Pierre', 'Avery', 'William', 'David', 'Yara', 'Zoe'
+      );
+      idx_prenom PLS_INTEGER := TRUNC(DBMS_RANDOM.VALUE(1, prenom_medecin.COUNT+1));
+      prenom VARCHAR2(20) := prenom_medecin(idx_prenom);
+
+    -- Générer un nom aléatoire       
+        nom_medecin CONSTANT SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST(
+        'Dupont', 'Martin', 'Dubois', 'Hernandez', 'Leblanc',
+        'Garcia', 'Rodriguez', 'Moreau', 'Patel', 'Mercier', 
+        'Johnson', 'Tremblay', 'Gomez', 'Rousseau', 'Santos',
+        'Brown', 'Roy', 'Chen', 'Nguyen', 'Gagnon', 'Taylor', 'Dubé', 'Wilson', 'Kim'
+      );
+      idx_nom PLS_INTEGER := TRUNC(DBMS_RANDOM.VALUE(1, nom_medecin.COUNT+1));
+      nom VARCHAR2(20) := nom_medecin(idx_nom);
+      
+        BEGIN         
+            INSERT INTO medecin_auxilaire (num_adeli, specialite, nom_medecin, prenom_medecin)
+            VALUES (seq_id.nextval, spe, nom, prenom);
+        END;
+  END LOOP;
+END;
