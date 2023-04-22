@@ -1,13 +1,13 @@
-create or replace trigger CHK_analyseEffort
-before insert or update on fiche_quotidienne
-for each row
-declare
-rythme_cardiaque integer;
-nom_exam char(50);
+--create or replace trigger CHK_analyseEffort
+--before insert or update on fiche_quotidienne
+--for each row
+--declare
+--rythme_cardiaque integer;
+--nom_exam char(50);
 
-begin
-    if (:new.rythme_cardiaque <= 100 AND :new.rythme_cardiaque >= 60) AND :new.nom_exam = 'Analyse_effort' then
-    raise_application_error(-20001, 'Le rythme cardiaque ne doit pas être comprise entre 60 et 100 pour une Analyse_effort.'); 
-    end if;
-end;
-/
+--begin
+--    if (:new.rythme_cardiaque <= 100 AND :new.rythme_cardiaque >= 60) AND :new.nom_exam = 'Analyse_effort' then
+--    raise_application_error(-20001, 'Le rythme cardiaque ne doit pas être comprise entre 60 et 100 pour une Analyse_effort.'); 
+--    end if;
+--end;
+--/
