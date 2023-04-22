@@ -624,8 +624,8 @@ peuplement_personnes;
 peuplement_traitement;
 
 
-execute insert_analyse_covid(117, 1);
-execute insert_analyse_effort(117, 100, 160, 190);
+--execute insert_analyse_covid(117, 1);
+--execute insert_analyse_effort(117, 100, 160, 190);
 End;
 
 
