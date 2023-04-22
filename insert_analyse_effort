@@ -1,0 +1,16 @@
+create or replace PROCEDURE insert_analyse_effort (
+
+    --p_id_fiche    IN fiche.id_fiche%TYPE,
+    p_av_effort  IN analyse_effort.rythme_av_effort%TYPE,
+    p_ap_effort  IN analyse_effort.rythme_ap_effort%TYPE,
+    p_av_repos  IN analyse_effort.rythme_av_repos%TYPE,
+    p_num_adeli   IN medecin_auxilaire.num_adeli%TYPE
+)
+IS
+BEGIN
+    INSERT INTO analyse_effort (id_analyse_effort, num_adeli, rythme_av_effort, rythme_ap_effort, rythme_av_repos)
+    VALUES (seq_analyse_effort.NEXTVAL, p_num_adeli, p_av_effort , p_ap_effort, p_av_repos);
+    
+    COMMIT;
+
+END;
