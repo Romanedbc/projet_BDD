@@ -1,0 +1,18 @@
+create or replace PROCEDURE peuplement_groupes AS
+  
+BEGIN
+DELETE FROM GROUPE;
+
+INSERT INTO GROUPE (id_grp, nom_grp, nb_grp, id_ssgrp, nb_ssgrp) VALUES (1, 'TP', 0, 1, 0);
+INSERT INTO GROUPE (id_grp, nom_grp, nb_grp, id_ssgrp, nb_ssgrp) VALUES (2, 'TP', 0, 2, 0);
+INSERT INTO GROUPE (id_grp, nom_grp, nb_grp, id_ssgrp, nb_ssgrp) VALUES (3, 'TP', 0, 3, 0);
+
+INSERT INTO GROUPE (id_grp, nom_grp, nb_grp, id_ssgrp, nb_ssgrp) VALUES (4, 'TV', 0, 1, 0);
+INSERT INTO GROUPE (id_grp, nom_grp, nb_grp, id_ssgrp, nb_ssgrp) VALUES (5, 'TV', 0, 2, 0);
+INSERT INTO GROUPE (id_grp, nom_grp, nb_grp, id_ssgrp, nb_ssgrp) VALUES (6, 'TV', 0, 3, 0);
+
+INSERT INTO GROUPE (id_grp, nom_grp, nb_grp, id_ssgrp, nb_ssgrp) VALUES (7, 'VP', 0, 1, 0);
+INSERT INTO GROUPE (id_grp, nom_grp, nb_grp, id_ssgrp, nb_ssgrp) VALUES (8, 'VP', 0, 2, 0);
+INSERT INTO GROUPE (id_grp, nom_grp, nb_grp, id_ssgrp, nb_ssgrp) VALUES (9, 'VP', 0, 3, 0);
+
+end;
