@@ -1,7 +1,8 @@
 create or replace PROCEDURE peuplement_personnes AS
-  groupes VARCHAR2(2);
-  
+v_id_med medecin_auxilaire.num_adeli%TYPE;
+
 BEGIN
+DELETE FROM PATIENT;
   FOR i IN 1..50 LOOP
     -- Générer un prénom aléatoire
     DECLARE
@@ -28,16 +29,9 @@ BEGIN
         age NUMBER := TRUNC(DBMS_RANDOM.VALUE(18, 53));
         
       BEGIN
-        -- Générer un nom de groupe aléatoire entre "TP", "TV" et "VP"
+        -- Générer un id de groupe aléatoire
         DECLARE
-        id_grp CONSTANT SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST(
-        'TP', 'TV', 'VP'
-        );
-        idx_groupe PLS_INTEGER := TRUNC(DBMS_RANDOM.VALUE(1, id_grp.COUNT+1));
-        groupe VARCHAR2(2) := id_grp(idx_groupe);
-      
-          --idx_groupe PLS_INTEGER := TRUNC(DBMS_RANDOM.VALUE(1, LENGTH(groupes)+1));
-          --groupe VARCHAR(2) := SUBSTR(groupes, idx_groupe, 2);
+            groupe NUMBER := TRUNC(DBMS_RANDOM.VALUE(1, 9));
           
         BEGIN
          -- Générer une taille aléatoire en cm
@@ -48,16 +42,27 @@ BEGIN
          -- Générer un poids aléatoire en kg
             DECLARE
              poids NUMBER := TRUNC(DBMS_RANDOM.VALUE(40, 150));
-          
-          
+             
             BEGIN
-          -- Insérer la nouvelle personne dans la table
-             INSERT INTO patient (num_anonymat, id_grp, nom_P, prenom_P, statut_patho, age_P, med_ref, taille, poids_init, exclu)
-             VALUES (seq_id.nextval, groupe, nom, prenom, '1', age, '1', taille, poids, '0');
+                -- Génère le statut dde la pathologie aléatoirement
+             DECLARE
+             statutpatho NUMBER := TRUNC(DBMS_RANDOM.VALUE(0,1));
+             
+             
+             BEGIN
+                SELECT num_adeli INTO v_id_med  FROM (SELECT num_adeli FROM medecin_auxilaire ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM = 1;
+     
+             
+                BEGIN         
+                 -- Insérer la nouvelle personne dans la table
+                    INSERT INTO patient (num_anonymat, id_grp, nom_P, prenom_P, statut_patho, age_P, med_ref, taille, poids_init, exclu)
+                    VALUES (seq_id.nextval, groupe, nom, prenom, statutpatho, age, v_id_med, taille, poids, '0');
+                END;
+                END;
             END;
           END;
         END;
       END;
     END;
-  END LOOP;
-END; 
+END LOOP;
+END;
