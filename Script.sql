@@ -619,13 +619,13 @@ CREATE SEQUENCE  SEQ_ID  MINVALUE 1 MAXVALUE 99999 INCREMENT BY 1 START WITH 61 
 Begin
 peuplement_groupes;
 peuplement_patho;
+peuplement_medecins;
 peuplement_personnes;
 peuplement_traitement;
-peuplement_medecins;
 
-insert_analyse_covid(216, 1);
-insert_analyse_effort(216, 100, 160, 190);
 
+execute insert_analyse_covid(117, 1);
+execute insert_analyse_effort(117, 100, 160, 190);
 End;
 
 
