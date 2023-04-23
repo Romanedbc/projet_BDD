@@ -1,0 +1,19 @@
+CREATE OR REPLACE PROCEDURE test_trigger_renouv_prise_sang 
+AS
+   v_id_fiche INTEGER;
+BEGIN
+   -- Insérer une nouvelle fiche quotidienne avec une date de prise de sang à Jour 1
+   INSERT INTO fiche_quotidienne (ID_FICHE, ID_ANALYSE_SANG, NUM_ADELI, ID_ANALYSE_COVID, NUM_ANONYMAT, ID_LOT, POIDS, PRESSION_ARTERIELLE, NUM_CHAMBRE, RYTHME_CARDIAQUE, TEMPERATURE, NOM_EXAM, OBSERVATIONS, DATEJOUR, MEDECIN_VERIF, DATE_PRO_EXAM)
+   VALUES (1, 1, 123456, 1, NULL, 1, 80.0, 120, 101, 80, 36, 'Analyse_sang', 'Aucune observation', 1, 1, 7);
+
+   -- Mettre à jour la fiche quotidienne pour déclencher le trigger
+   UPDATE fiche_quotidienne SET DATEJOUR = 2 WHERE ID_FICHE = 1;
+
+   -- Vérifier que la date de la prochaine prise de sang a été ajustée de 1 jour
+   SELECT DATE_PRO_EXAM INTO v_id_fiche FROM fiche_quotidienne WHERE ID_FICHE = 1;
+   DBMS_OUTPUT.PUT_LINE('La date de la prochaine prise de sang est : ' || v_id_fiche);   
+
+   -- Supprimer la fiche quotidienne insérée pour nettoyer la base de données
+   DELETE FROM fiche_quotidienne WHERE ID_FICHE = 1;
+END;
+/
