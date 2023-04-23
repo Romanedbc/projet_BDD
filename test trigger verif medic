@@ -1,0 +1,24 @@
+CREATE OR REPLACE PROCEDURE test_trigger_CHK_medecinVerif
+IS
+  v_medecin_verif fiche_quotidienne.medecin_verif%TYPE;
+BEGIN
+  -- Insérer une nouvelle ligne avec un même médecin_verif
+  INSERT INTO fiche_quotidienne (ID_FICHE, ID_ANALYSE_EFFORT, NUM_ADELI, ID_ANALYSE_EEG, ID_ANALYSE_COVID, NUM_ANONYMAT, ID_ANALYSE_SANG, ID_LOT, POIDS, PRESSION_ARTERIELLE, NUM_CHAMBRE, RYTHME_CARDIAQUE, TEMPERATURE, NOM_EXAM, OBSERVATIONS, DATEJOUR, MEDECIN_VERIF, DATE_PRO_EXAM)
+  VALUES (1, 1, 123456, 1, 1, 1, 1, 1, 70, 120, 101, 80, 37, 'Analyse_sang', 'Observations', 20230422, 1, 20230422);
+
+  -- Insérer une nouvelle ligne avec un autre médecin_verif
+  INSERT INTO fiche_quotidienne (ID_FICHE, ID_ANALYSE_EFFORT, NUM_ADELI, ID_ANALYSE_EEG, ID_ANALYSE_COVID, NUM_ANONYMAT, ID_ANALYSE_SANG, ID_LOT, POIDS, PRESSION_ARTERIELLE, NUM_CHAMBRE, RYTHME_CARDIAQUE, TEMPERATURE, NOM_EXAM, OBSERVATIONS, DATEJOUR, MEDECIN_VERIF, DATE_PRO_EXAM)
+  VALUES (2, 1, 123456, 1, 1, 1, 1, 1, 70, 120, 101, 80, 37, 'Analyse_sang', 'Observations', 20230422, 2, 20230422);
+
+  -- Mettre à jour une ligne existante avec un même médecin_verif
+  SELECT medecin_verif INTO v_medecin_verif FROM fiche_quotidienne WHERE ID_FICHE = 1 FOR UPDATE;
+  UPDATE fiche_quotidienne SET medecin_verif = v_medecin_verif WHERE ID_FICHE = 1;
+
+  -- Mettre à jour une ligne existante avec un autre médecin_verif
+  SELECT medecin_verif INTO v_medecin_verif FROM fiche_quotidienne WHERE ID_FICHE = 2 FOR UPDATE;
+  UPDATE fiche_quotidienne SET medecin_verif = v_medecin_verif + 1 WHERE ID_FICHE = 2;
+EXCEPTION
+  WHEN OTHERS THEN
+    dbms_output.put_line('Erreur : ' || SQLERRM);
+END;
+/
