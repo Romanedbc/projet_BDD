@@ -1,0 +1,25 @@
+create or replace procedure test_trigger_renouv_EEG
+as
+  v_id_fiche fiche_quotidienne.id_fiche%type;
+begin
+  -- Insertion d'une nouvelle ligne dans la table FICHE_QUOTIDIENNE
+  insert into FICHE_QUOTIDIENNE (ID_FICHE, ID_ANALYSE_EFFORT, NUM_ADELI, ID_ANALYSE_EEG, ID_ANALYSE_COVID, NUM_ANONYMAT,
+                                 ID_ANALYSE_SANG, ID_LOT, POIDS, PRESSION_ARTERIELLE, NUM_CHAMBRE, RYTHME_CARDIAQUE, 
+                                 TEMPERATURE, NOM_EXAM, OBSERVATIONS, DATEJOUR, MEDECIN_VERIF, DATE_PRO_EXAM)
+  values (1, null, 123456, 1, 2, null, 3, 4, 70, 120, 12, 80, 37, 'Analyse_EEG', 'RAS', 20230423, 123, 20230501);
+
+  -- Mise à jour de la date_pro_exam de la ligne précédemment insérée
+  update FICHE_QUOTIDIENNE set DATE_PRO_EXAM = 20230502 where ID_FICHE = 1;
+
+  -- Vérification que la date_pro_exam a bien été modifiée suite à la mise à jour
+  select DATE_PRO_EXAM into v_id_fiche from FICHE_QUOTIDIENNE where ID_FICHE = 1;
+  dbms_output.put_line('Date_pro_exam après la mise à jour : ' || v_id_fiche);
+
+  -- Mise à jour de la datejour de la ligne précédemment insérée
+  update FICHE_QUOTIDIENNE set DATEJOUR = 20230502 where ID_FICHE = 1;
+
+  -- Vérification que la date_pro_exam a été décrémentée de 1 suite à la mise à jour de la datejour
+  select DATE_PRO_EXAM into v_id_fiche from FICHE_QUOTIDIENNE where ID_FICHE = 1;
+  dbms_output.put_line('Date_pro_exam après la mise à jour de la datejour : ' || v_id_fiche);
+end;
+/
