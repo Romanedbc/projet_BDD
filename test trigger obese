@@ -1,0 +1,24 @@
+CREATE OR REPLACE PROCEDURE test_obese_trigger 
+AS
+   -- Déclarer une exception pour capturer les erreurs levées par le déclencheur
+   pasbon EXCEPTION;
+
+BEGIN
+   -- Insertion d'un patient avec un IMC supérieur à 30
+   INSERT INTO PATIENT (NUM_ANONYMAT, ID_GRP, ID_FICHE, NOM_P, PRENOM_P, STATUT_PATHO, AGE_P, MED_REF, TAILLE, POIDS_INIT)
+   VALUES (1, 1, 1, 'DUPONT', 'Jean', NULL, 35, 1, 1.70, 90);
+
+   -- Si l'insertion a réussi, afficher un message de succès
+   DBMS_OUTPUT.PUT_LINE('Insertion réussie !');
+
+EXCEPTION
+   -- Si une erreur est levée, afficher le message d'erreur
+   WHEN pasbon THEN
+      DBMS_OUTPUT.PUT_LINE(SQLERRM);
+
+   -- Si une autre erreur est levée, afficher le message d'erreur système
+   WHEN OTHERS THEN
+      DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_STACK);
+
+END;
+/
