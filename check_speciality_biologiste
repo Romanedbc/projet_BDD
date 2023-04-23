@@ -1,0 +1,12 @@
+CREATE OR REPLACE TRIGGER check_speciality_biologiste
+BEFORE INSERT ON analyse_sang
+FOR EACH ROW
+DECLARE
+  specialite VARCHAR2(255);
+BEGIN
+
+  SELECT specialite INTO specialite FROM medecin_auxilaire WHERE num_adeli = :NEW.num_adeli;
+  IF (specialite <> 'biologiste') THEN
+    RAISE_APPLICATION_ERROR(-20001, 'Le médecin associé doit être un biologiste.');
+  END IF;
+END;
