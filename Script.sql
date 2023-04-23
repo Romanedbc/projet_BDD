@@ -626,6 +626,23 @@ peuplement_traitement;
 
 --execute insert_analyse_covid(117, 1);
 --execute insert_analyse_effort(117, 100, 160, 190);
+
+
+/*======== ANALYSE SANGUINE ==========*/
+
+--Insertion d'une nouvelle analyse de sang, dont au moins 3 concentrations sont dans l'intevralle
+--execute insert_analyse_sang(87, 5, 8, 3, 7, 2, 10, 2, 10);
+
+-- Vérifie que la valeur du résultat d'analyse est bien 1 (signifiant qu'au moins 3 concentrations sont dans l'intervalle)
+--SELECT res_prise_sang FROM analyse_sang WHERE id_analyse_sang = 62;
+
+--Insertion d'une nouvelle analyse de sang, dont au moins 3 concentrations sont anormales (hors intervalle)
+--execute insert_analyse_sang(88, 12, 16, 1, 1, 2, 10, 2, 10);
+
+-- Vérifie que la valeur du résultat d'analyse est bien 0 (signifiant que au moins 3 valeurs sont hors norme)
+--SELECT res_prise_sang FROM analyse_sang WHERE id_analyse_sang = 63;
+
+
 End;
 
 
