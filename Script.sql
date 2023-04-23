@@ -1,4 +1,4 @@
-/*==============================================================*/
+  /*==============================================================*/
 /* Nom de SGBD :  ORACLE Version 11g                            */
 /* Date de création :  27/03/2023 15:49:12                      */
 /*==============================================================*/
@@ -263,7 +263,7 @@ create table ANALYSE_EFFORT
    NUM_ADELI            INTEGER              not null,
    RYTHME_AV_EFFORT     INTEGER              not null,
    RYTHME_AP_EFFORT     INTEGER              not null,
-   RYTHME_AV_REPOS      INTEGER              not null,
+   RYTHME_AP_REPOS      INTEGER              not null,
    constraint PK_ANALYSE_EFFORT primary key (ID_ANALYSE_EFFORT)
 );
 
@@ -296,6 +296,8 @@ create table ANALYSE_SANG
    C_5                  FLOAT                not null,
    C_6                  FLOAT                not null,
    RES_PRISE_SANG       SMALLINT             not null,
+   nmax                 FLOAT,
+   nmin                 float,
    constraint PK_ANALYSE_SANG primary key (ID_ANALYSE_SANG)
 );
 
@@ -616,6 +618,16 @@ alter table TRAITEMENT
 DROP SEQUENCE SEQ_ID;
 CREATE SEQUENCE  SEQ_ID  MINVALUE 1 MAXVALUE 99999 INCREMENT BY 1 START WITH 61 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
 
+DROP SEQUENCE SEQ_analyse_effort;
+CREATE SEQUENCE  SEQ_analyse_effort  MINVALUE 1 MAXVALUE 99999 INCREMENT BY 1 START WITH 61 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+
+DROP SEQUENCE SEQ_analyse_covid;
+CREATE SEQUENCE  SEQ_analyse_covid  MINVALUE 1 MAXVALUE 99999 INCREMENT BY 1 START WITH 61 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+
+DROP SEQUENCE SEQ_analyse_sang;
+CREATE SEQUENCE  SEQ_analyse_sang  MINVALUE 1 MAXVALUE 99999 INCREMENT BY 1 START WITH 61 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+
+
 Begin
 peuplement_groupes;
 peuplement_patho;
@@ -631,16 +643,16 @@ peuplement_traitement;
 /*======== ANALYSE SANGUINE ==========*/
 
 --Insertion d'une nouvelle analyse de sang, dont au moins 3 concentrations sont dans l'intevralle
---execute insert_analyse_sang(87, 5, 8, 3, 7, 2, 10, 2, 10);
+execute insert_analyse_sang(87, 5, 8, 3, 7, 2, 10, 2, 10);
 
 -- Vérifie que la valeur du résultat d'analyse est bien 1 (signifiant qu'au moins 3 concentrations sont dans l'intervalle)
---SELECT res_prise_sang FROM analyse_sang WHERE id_analyse_sang = 62;
+SELECT res_prise_sang FROM analyse_sang WHERE id_analyse_sang = 62;
 
 --Insertion d'une nouvelle analyse de sang, dont au moins 3 concentrations sont anormales (hors intervalle)
---execute insert_analyse_sang(88, 12, 16, 1, 1, 2, 10, 2, 10);
+execute insert_analyse_sang(88, 12, 16, 1, 1, 2, 10, 2, 10);
 
 -- Vérifie que la valeur du résultat d'analyse est bien 0 (signifiant que au moins 3 valeurs sont hors norme)
---SELECT res_prise_sang FROM analyse_sang WHERE id_analyse_sang = 63;
+SELECT res_prise_sang FROM analyse_sang WHERE id_analyse_sang = 63;
 
 
 End;
