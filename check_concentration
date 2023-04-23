@@ -1,0 +1,37 @@
+create or replace TRIGGER check_concentration
+BEFORE INSERT ON analyse_sang
+FOR EACH ROW
+DECLARE
+  cpt NUMBER := 0;
+BEGIN
+  IF :NEW.c_cholesterol >= :NEW.nmin and :NEW.c_cholesterol <= :NEW.nmax  THEN
+    cpt := cpt + 1;
+  END IF;
+  
+  IF :NEW.c_glycemie >= :NEW.nmin and :NEW.c_glycemie <= :NEW.nmax  THEN
+    cpt := cpt + 1;
+  END IF;
+  
+  IF :NEW.c_plaquette >= :NEW.nmin and :NEW.c_plaquette <= :NEW.nmax  THEN
+    cpt := cpt + 1;
+    END IF;
+
+    IF :NEW.c_4 >= :NEW.nmin and :NEW.c_4 <= :NEW.nmax  THEN
+    cpt := cpt + 1;
+    END IF;
+
+  IF :NEW.c_5 >= :NEW.nmin and :NEW.c_5 <= :NEW.nmax  THEN
+    cpt := cpt + 1;
+  END IF;
+
+  IF :NEW.c_6 >= :NEW.nmin and :NEW.c_6 <= :NEW.nmax  THEN
+    cpt := cpt + 1;
+  END IF;
+
+
+  IF cpt >= 3 THEN
+    :NEW.res_prise_sang := 1;
+  ELSE
+    :NEW.res_prise_sang := 0;
+  END IF;
+END;
