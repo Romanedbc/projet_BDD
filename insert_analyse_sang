@@ -1,0 +1,22 @@
+create or replace PROCEDURE INSERT_ANALYSE_SANG (
+    --p_id_fiche   IN fiche.id_fiche%TYPE,
+    p_num_adeli   IN medecin_auxilaire.num_adeli%TYPE,
+    p_C_cholesterol IN analyse_sang.c_cholesterol%TYPE,
+    p_C_glycemie IN analyse_sang.c_glycemie%TYPE,
+    p_C_plaquette IN analyse_sang.c_plaquette%TYPE,
+    p_C_4 IN analyse_sang.c_4%TYPE,
+    p_C_5 IN analyse_sang.c_5%TYPE,
+    p_C_6 IN analyse_sang.c_6%TYPE,
+    p_nmin in analyse_sang.nmin%TYPE,
+    p_nmax in analyse_sang.nmax%TYPE
+    )
+
+IS
+
+BEGIN
+
+    INSERT INTO analyse_sang (id_analyse_sang, num_adeli, c_cholesterol, c_glycemie, c_plaquette, c_4, c_5, c_6, nmin, nmax)
+    VALUES (seq_analyse_sang.nextval, p_num_adeli, p_C_cholesterol, p_C_glycemie, p_C_plaquette, p_C_4, p_C_5, p_C_6, p_nmin, p_nmax );
+    
+    COMMIT;
+END;
