@@ -5,8 +5,8 @@ AS
 
 BEGIN
    -- Insertion d'un patient avec un IMC supérieur à 30
-   INSERT INTO PATIENT (NUM_ANONYMAT, ID_GRP, ID_FICHE, NOM_P, PRENOM_P, STATUT_PATHO, AGE_P, MED_REF, TAILLE, POIDS_INIT)
-   VALUES (1, 1, 1, 'DUPONT', 'Jean', NULL, 35, 1, 1.70, 90);
+   INSERT INTO PATIENT (NUM_ANONYMAT, ID_GRP, ID_FICHE, NOM_P, PRENOM_P, STATUT_PATHO, AGE_P, MED_REF, TAILLE, POIDS_INIT, exclu)
+   VALUES (1, 1, 1, 'DUPONT', 'Jean', NULL, 35, 1, 1.70, 90,0);
 
    -- Si l'insertion a réussi, afficher un message de succès
    DBMS_OUTPUT.PUT_LINE('Insertion réussie !');
