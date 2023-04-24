@@ -4,9 +4,9 @@ BEGIN
 
 
 -- Insérer des données de test dans la table medecin_auxiliaire
-INSERT INTO medecin_auxiliaire (num_adeli, specialite, nom_medecin,prenom_medecin) VALUES ('1234567890', 'neurologue','Scott','Joel');
-INSERT INTO medecin_auxiliaire (num_adeli, specialite, nom_medecin,prenom_medecin) VALUES ('2345678901', 'biologiste','Hutchinson','Jessica');
-INSERT INTO medecin_auxiliaire (num_adeli, specialite, nom_medecin,prenom_medecin) VALUES ('3456789012', 'kine','Ritter','Tanya');
+INSERT INTO medecin_auxilaire (num_adeli, specialite, nom_medecin,prenom_medecin) VALUES ('1234567890', 'neurologue','Scott','Joel');
+INSERT INTO medecin_auxilaire (num_adeli, specialite, nom_medecin,prenom_medecin) VALUES ('2345678901', 'biologiste','Hutchinson','Jessica');
+INSERT INTO medecin_auxilaire (num_adeli, specialite, nom_medecin,prenom_medecin) VALUES ('3456789012', 'kine','Ritter','Tanya');
 
 
 -- Insérer une ligne avec un médecin kine
