@@ -27,7 +27,7 @@ BEGIN
     insert_analyse_effort (9999999999,1,4,5,6);
 EXCEPTION
     WHEN OTHERS THEN
-       RAISE_APPLICATION_ERROR(-20001,'Erreur : aucun medecin ne correspond a ce numero adeli ' || SQLCODE );
+       RAISE_APPLICATION_ERROR(-20001,'Erreur : aucun medecin ne correspond a ce numero adeli ');
 END;
 
 END;
