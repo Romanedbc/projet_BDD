@@ -1,4 +1,4 @@
-  /*==============================================================*/
+/*==============================================================*/
 /* Nom de SGBD :  ORACLE Version 11g                            */
 /* Date de création :  27/03/2023 15:49:12                      */
 /*==============================================================*/
@@ -295,7 +295,7 @@ create table ANALYSE_SANG
    C_4                  FLOAT                not null,
    C_5                  FLOAT                not null,
    C_6                  FLOAT                not null,
-   RES_PRISE_SANG       SMALLINT             not null,
+   RES_PRISE_SANG       SMALLINT,
    nmax                 FLOAT,
    nmin                 float,
    constraint PK_ANALYSE_SANG primary key (ID_ANALYSE_SANG)
@@ -641,23 +641,31 @@ peuplement_traitement;
 
 
 /*======== ANALYSE SANGUINE ==========*/
+-- Insérer un médecin biologiste
+--INSERT INTO medecin_auxilaire (num_adeli, specialite, nom_medecin,prenom_medecin) VALUES ('2345678901', 'Biologiste','Hutchinson','Jessica');
 
 --Insertion d'une nouvelle analyse de sang, dont au moins 3 concentrations sont dans l'intevralle
-execute insert_analyse_sang(87, 5, 8, 3, 7, 2, 10, 2, 10);
+--execute insert_analyse_sang(2345678901, 5, 8, 3, 7, 2, 10, 2, 10);
 
 -- Vérifie que la valeur du résultat d'analyse est bien 1 (signifiant qu'au moins 3 concentrations sont dans l'intervalle)
-SELECT res_prise_sang FROM analyse_sang WHERE id_analyse_sang = 62;
+--SELECT res_prise_sang FROM analyse_sang WHERE id_analyse_sang = 61;
 
 --Insertion d'une nouvelle analyse de sang, dont au moins 3 concentrations sont anormales (hors intervalle)
-execute insert_analyse_sang(88, 12, 16, 1, 1, 2, 10, 2, 10);
+--execute insert_analyse_sang(2345678901, 12, 16, 1, 1, 2, 10, 2, 10);
 
 -- Vérifie que la valeur du résultat d'analyse est bien 0 (signifiant que au moins 3 valeurs sont hors norme)
-SELECT res_prise_sang FROM analyse_sang WHERE id_analyse_sang = 63;
+--SELECT res_prise_sang FROM analyse_sang WHERE id_analyse_sang = 63;
+
+--Analyse faite par un médecin non-biologiste
+--INSERT INTO medecin_auxilaire (num_adeli, specialite, nom_medecin,prenom_medecin) VALUES ('123456789', 'Neurologue','James','Henry');
+--execute insert_analyse_sang(123456789, 12, 15, 1, 1, 2, 10, 2, 10);
+
+
+
+/*======== PATIENT OBESE ==========*/
+INSERT INTO PATIENT (NUM_ANONYMAT, ID_GRP, NOM_P, PRENOM_P, STATUT_PATHO, AGE_P, MED_REF, TAILLE, POIDS_INIT, exclu)
+  VALUES (1, 1, 'DUPONT', 'Jean', 0, 35, 80, 150, 120, 0);
+
 
 
 End;
-
-
-
-
-
