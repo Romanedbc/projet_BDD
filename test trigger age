@@ -8,18 +8,16 @@ VALUES (1, 1, 'Doe', 'John', 45, 123, 180, 80,0);
 
 -- Vérifier que le trigger a bien été déclenché et que les mises à jour ont été effectuées
 SELECT id_ssgrp INTO new_patient.nom_grp FROM groupe WHERE id_grp = 1;
-DBMS_OUTPUT.PUT_LINE('Nouveau ID_SSGRP : ' || new_patient.id_grp);
+
 
 SELECT nom_grp INTO new_patient.nom_grp FROM groupe WHERE nom_grp = 1;
-DBMS_OUTPUT.PUT_LINE('Nouveau ID_GRP : ' || new_patient.id_grp);
 
 -- Modifier un patient existant pour avoir un âge >= 43 ans
 UPDATE patient SET age_p = 44 WHERE num_anonymat = 1;
 
 -- Vérifier que le trigger a bien été déclenché et que les mises à jour ont été effectuées
 SELECT id_ssgrp INTO new_patient.nom_grp FROM groupe WHERE id_grp = 1;
-DBMS_OUTPUT.PUT_LINE('Nouveau ID_SSGRP : ' || new_patient.nom_grp);
 
 SELECT nom_grp INTO new_patient.nom_grp FROM groupe WHERE id_grp = 1;
-DBMS_OUTPUT.PUT_LINE('Nouveau nom_GRP : ' || new_patient.nom_grp);
+
 END;
