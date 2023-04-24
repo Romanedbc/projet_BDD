@@ -3,23 +3,23 @@ AS
 new_patient PATIENT%ROWTYPE;
 BEGIN
 -- Insérer un nouveau patient avec un âge >= 43 ans
-INSERT INTO patient (num_anonymat, id_grp, nom_p, prenom_p, age_p, med_ref, taille, poids_init)
-VALUES (1, 1, 'Doe', 'John', 45, 123, 180, 80);
+INSERT INTO patient (num_anonymat, id_grp, nom_p, prenom_p, age_p, med_ref, taille, poids_init, exclu)
+VALUES (1, 1, 'Doe', 'John', 45, 123, 180, 80,0);
 
 -- Vérifier que le trigger a bien été déclenché et que les mises à jour ont été effectuées
-SELECT id_ssgrp INTO new_patient.id_grp FROM groupe WHERE id_grp = 1;
+SELECT id_ssgrp INTO new_patient.nom_grp FROM groupe WHERE id_grp = 1;
 DBMS_OUTPUT.PUT_LINE('Nouveau ID_SSGRP : ' || new_patient.id_grp);
 
-SELECT id_grp INTO new_patient.id_grp FROM groupe WHERE id_grp = 'PP';
+SELECT nom_grp INTO new_patient.nom_grp FROM groupe WHERE nom_grp = 1;
 DBMS_OUTPUT.PUT_LINE('Nouveau ID_GRP : ' || new_patient.id_grp);
 
 -- Modifier un patient existant pour avoir un âge >= 43 ans
 UPDATE patient SET age_p = 44 WHERE num_anonymat = 1;
 
 -- Vérifier que le trigger a bien été déclenché et que les mises à jour ont été effectuées
-SELECT id_ssgrp INTO new_patient.id_grp FROM groupe WHERE id_grp = 1;
-DBMS_OUTPUT.PUT_LINE('Nouveau ID_SSGRP : ' || new_patient.id_grp);
+SELECT id_ssgrp INTO new_patient.nom_grp FROM groupe WHERE id_grp = 1;
+DBMS_OUTPUT.PUT_LINE('Nouveau ID_SSGRP : ' || new_patient.nom_grp);
 
-SELECT id_grp INTO new_patient.id_grp FROM groupe WHERE id_grp = 'PP';
-DBMS_OUTPUT.PUT_LINE('Nouveau ID_GRP : ' || new_patient.id_grp);
+SELECT nom_grp INTO new_patient.nom_grp FROM groupe WHERE id_grp = 1;
+DBMS_OUTPUT.PUT_LINE('Nouveau nom_GRP : ' || new_patient.nom_grp);
 END;
