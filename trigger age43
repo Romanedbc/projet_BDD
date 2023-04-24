@@ -9,7 +9,7 @@ BEGIN
     IF random_val = 0 THEN
       UPDATE groupe SET id_ssgrp = 2 WHERE id_grp = :NEW.id_grp;
     ELSE
-      UPDATE groupe SET id_grp = 'PP' WHERE id_grp = :NEW.id_grp;
+      UPDATE groupe SET nom_grp = 'PP' WHERE id_grp = :NEW.id_grp;
     END IF;
   END IF;
 END;
